@@ -1,9 +1,7 @@
 # Yildiz-Engine module-scripting.
 
-This is the official repository of The Yildiz-Engine Scripting Module, part of the Yildiz-Engine project.
+This is the official repository of the Scripting Module, part of the Yildiz-Engine project.
 The scripting module is a component meant to use a scripting language to manipulate the engine API.
-
-## Status [![Quality Gate](https://www.sonarqube.com/api/badges/gate?key=be.yildiz-games:module-scripting)](https://sonarqube.com/overview?id=be.yildiz-games:module-scripting)
 
 ## Features
 
