@@ -41,6 +41,7 @@ final class NoInterpreter implements ScriptInterpreter {
     @Override
     public ParsedScript runScript(final String file) throws ScriptException {
         return (() -> {
+            // Does nothing.
         });
     }
 
@@ -51,23 +52,34 @@ final class NoInterpreter implements ScriptInterpreter {
 
     @Override
     public void print(final String toPrint) {
-
+        // Does nothing.
     }
 
     @Override
     public void setOutput(final Writer output) {
+        // Does nothing.
     }
 
+    /**
+     * @param classToGet Class to retrieve methods.
+     * @return "".
+     */
     @Override
     public Object getClassMethods(final Class<?> classToGet) {
         return "";
     }
 
+    /**
+     * @return "".
+     */
     @Override
     public String getFileHeader() {
         return "";
     }
 
+    /**
+     * @return "txt".
+     */
     @Override
     public String getFileExtension() {
         return "txt";
