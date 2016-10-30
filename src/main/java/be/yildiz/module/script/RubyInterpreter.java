@@ -80,7 +80,7 @@ final class RubyInterpreter implements ScriptInterpreter {
     @Override
     public ParsedScript runScript(final String file) throws ScriptException {
         try (BufferedInputStream stream = new BufferedInputStream(new FileInputStream(new File(file)))) {
-            return () -> this.container.parse(stream, file).run();
+            return this.container.parse(stream, file)::run;
         } catch (IOException e) {
             throw new ScriptException(e);
         }
