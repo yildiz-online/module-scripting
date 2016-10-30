@@ -36,7 +36,6 @@ import java.io.*;
 /**
  * @author Grégory Van den Borre
  */
-@Ignore(value = "Temporary, Break jenkins build")
 public class RubyInterpreterTest {
 
     @Ignore(value = "the set output seems not working, cannot make this test pass right now, file is created but nothing is printed in it")
@@ -56,9 +55,21 @@ public class RubyInterpreterTest {
         f.delete();
     }
 
-    @Test
-    public void testRunScript() {
+    @Test(expected = ScriptException.class)
+    public void testRunScriptNotExists() throws ScriptException {
+        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
+        interpreter.runScript("none.rb");
+    }
 
+    @Test
+    public void testRunScript() throws ScriptException {
+        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
+        ParsedScript ps = interpreter.runScript(getFile("test-unit-1.rb").getAbsolutePath());
+        ps.run();
+    }
+
+    private static File getFile(String name) {
+        return new File(RubyInterpreter.class.getClassLoader().getResource(name).getFile()).getAbsoluteFile();
     }
 
     @Test
