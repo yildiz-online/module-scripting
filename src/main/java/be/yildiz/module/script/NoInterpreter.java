@@ -40,9 +40,9 @@ final class NoInterpreter implements ScriptInterpreter {
 
     @Override
     public ParsedScript runScript(final String file) throws ScriptException {
-        return (() -> {
+        return () -> {
             // Does nothing.
-        });
+        };
     }
 
     @Override
