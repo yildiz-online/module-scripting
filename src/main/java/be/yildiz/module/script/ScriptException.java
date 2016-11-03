@@ -44,4 +44,13 @@ public final class ScriptException extends Exception {
         super(cause);
     }
 
+    /**
+     * Full constructor.
+     *
+     * @param cause Error message.
+     */
+    public ScriptException(final String cause) {
+        super(cause);
+    }
+
 }
