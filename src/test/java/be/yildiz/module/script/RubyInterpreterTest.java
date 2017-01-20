@@ -26,7 +26,6 @@ package be.yildiz.module.script;
 import be.yildiz.common.shape.Box;
 import be.yildiz.module.script.ScriptInterpreterFactory.ScriptLanguage;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
@@ -36,7 +35,6 @@ import java.io.*;
  */
 public class RubyInterpreterTest {
 
-    @Ignore(value = "the set output seems not working, cannot make this test pass right now, file is created but nothing is printed in it")
     @Test
     public void testSetOutput() throws IOException {
         ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
