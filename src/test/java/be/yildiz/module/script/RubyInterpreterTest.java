@@ -26,7 +26,9 @@ package be.yildiz.module.script;
 import be.yildiz.common.shape.Box;
 import be.yildiz.module.script.ScriptInterpreterFactory.ScriptLanguage;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
 
@@ -35,10 +37,14 @@ import java.io.*;
  */
 public class RubyInterpreterTest {
 
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     @Test
     public void testSetOutput() throws IOException {
         ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
-        File f = new File("test");
+        folder.create();
+        File f = new File(folder.getRoot().getAbsolutePath() + "/test.txt");
         String toPrint = "testing output in file";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
             interpreter.setOutput(bw);
@@ -48,7 +54,6 @@ public class RubyInterpreterTest {
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             Assert.assertEquals(toPrint, br.readLine());
         }
-        f.delete();
     }
 
     @Test(expected = ScriptException.class)
