@@ -77,14 +77,20 @@ public final class ScriptInterpreterFactory {
     }
 
     private ScriptInterpreter buildInterpreter(ScriptLanguage language) {
+        ScriptInterpreter i;
         switch (language) {
             case RUBY:
-                return this.interpreters.put(language, RubyInterpreter.concurrent());
+                i = RubyInterpreter.concurrent();
+                break;
             case NONE:
-                return this.interpreters.put(language, new NoInterpreter());
+                i = new NoInterpreter();
+                break;
             default:
                 throw new UnhandledSwitchCaseException(language);
+
         }
+        this.interpreters.put(language, i);
+        return i;
     }
 
     /**
