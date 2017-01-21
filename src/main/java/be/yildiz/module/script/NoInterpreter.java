@@ -36,6 +36,8 @@ import java.io.Writer;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 final class NoInterpreter implements ScriptInterpreter {
 
+    private boolean closed;
+
     @Override
     public ParsedScript runScript(final String file) throws ScriptException {
         return () -> {
@@ -83,4 +85,13 @@ final class NoInterpreter implements ScriptInterpreter {
         return "txt";
     }
 
+    @Override
+    public boolean isClosed() {
+        return this.closed;
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.closed = true;
+    }
 }

@@ -30,7 +30,7 @@ import java.io.Writer;
  *
  * @author Grégory Van den Borre
  */
-public interface ScriptInterpreter {
+public interface ScriptInterpreter extends AutoCloseable{
 
     /**
      * Parse and run a script file.
@@ -81,4 +81,6 @@ public interface ScriptInterpreter {
      * @return The script file extension, without ".".
      */
     String getFileExtension();
+
+    boolean isClosed();
 }

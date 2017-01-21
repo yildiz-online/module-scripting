@@ -24,7 +24,6 @@
 package be.yildiz.module.script;
 
 import be.yildiz.common.shape.Box;
-import be.yildiz.module.script.ScriptInterpreterFactory.ScriptLanguage;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,45 +40,48 @@ public class RubyInterpreterTest {
     public TemporaryFolder folder = new TemporaryFolder();
 
     @Test
-    public void testSetOutput() throws IOException {
-        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
-        folder.create();
-        File f = new File(folder.getRoot().getAbsolutePath() + "/test.txt");
-        String toPrint = "testing output in file";
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
-            interpreter.setOutput(bw);
-            interpreter.print(toPrint);
-        }
-        Assert.assertTrue(f.exists());
-        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-            Assert.assertEquals(toPrint, br.readLine());
-        }
+    public void testSetOutput() throws Exception {
+        ScriptInterpreter interpreter = RubyInterpreter.singleThread();
+            folder.create();
+            File f = new File(folder.getRoot().getAbsolutePath() + "/test.txt");
+            String toPrint = "testing output in file";
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
+                interpreter.setOutput(bw);
+                interpreter.print(toPrint);
+
+            }
+            Assert.assertTrue(f.exists());
+            try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+                Assert.assertEquals(toPrint, br.readLine());
+            }
     }
 
     @Test(expected = ScriptException.class)
-    public void testRunScriptNotExists() throws ScriptException {
-        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
-        interpreter.runScript("none.rb");
+    public void testRunScriptNotExists() throws Exception {
+        ScriptInterpreter interpreter = RubyInterpreter.singleThread();
+            interpreter.runScript("none.rb");
+
     }
 
     @Test
-    public void testRunScript() throws ScriptException {
-        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
-        ParsedScript ps = interpreter.runScript(getFile("test-unit-1.rb").getAbsolutePath());
-        ps.run();
+    public void testRunScript() throws Exception {
+        ScriptInterpreter interpreter = RubyInterpreter.singleThread();
+            ParsedScript ps = interpreter.runScript(getFile().getAbsolutePath());
+            ps.run();
+
     }
 
-    private static File getFile(String name) {
-        return new File(RubyInterpreter.class.getClassLoader().getResource(name).getFile()).getAbsoluteFile();
+    private static File getFile() {
+        return new File(RubyInterpreter.class.getClassLoader().getResource("test-unit-1.rb").getFile());
     }
 
     @Test
-    public void testRunCommand() throws ScriptException {
-        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
-        Assert.assertEquals(Long.valueOf(4L), interpreter.runCommand("2+2"));
-        Assert.assertEquals(null, interpreter.runCommand("puts 'testing puts return code'"));
-        Assert.assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildiz.common.shape.Box.new(5)"));
-        Assert.assertEquals(new Box(5), interpreter.runCommand("a"));
+    public void testRunCommand() throws Exception {
+        ScriptInterpreter interpreter = RubyInterpreter.singleThread();
+            Assert.assertEquals(4L, interpreter.runCommand("2+2"));
+            Assert.assertEquals(null, interpreter.runCommand("puts 'testing puts return code'"));
+            Assert.assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildiz.common.shape.Box.new(5)"));
+            Assert.assertEquals(new Box(5), interpreter.runCommand("a"));
     }
 
     @Test
@@ -88,14 +90,15 @@ public class RubyInterpreterTest {
     }
 
     @Test
-    public void testGetFileHeader() {
-        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
-        Assert.assertEquals("#!//usr//bin//ruby\n", interpreter.getFileHeader());
+    public void testGetFileHeader() throws Exception {
+        ScriptInterpreter interpreter = RubyInterpreter.singleThread();
+            Assert.assertEquals("#!//usr//bin//ruby\n", interpreter.getFileHeader());
+
     }
 
     @Test
-    public void testGetFileExtension() {
-        ScriptInterpreter interpreter = ScriptInterpreterFactory.getInstance().getInterpreter(ScriptLanguage.RUBY);
+    public void testGetFileExtension() throws Exception {
+        ScriptInterpreter interpreter = RubyInterpreter.singleThread();
         Assert.assertEquals("rb", interpreter.getFileExtension());
     }
 }

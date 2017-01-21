@@ -42,11 +42,99 @@ final class RubyInterpreter implements ScriptInterpreter {
     private final ScriptingContainer container;
 
     /**
-     * Simple constructor.
+     * Flag to check if the container is closed.
      */
-    RubyInterpreter() {
+    private boolean closed;
+
+    /**
+     * Simple constructor.
+     * @param s Scope.
+     */
+    private RubyInterpreter(LocalContextScope s) {
         super();
-        this.container = new ScriptingContainer(LocalContextScope.CONCURRENT, LocalVariableBehavior.PERSISTENT);
+        this.container = new ScriptingContainer(s, LocalVariableBehavior.PERSISTENT);
+    }
+
+    /**
+     * +------------------+ +------------------+ +------------------+
+     * |   Variable Map   | |   Variable Map   | |   Variable Map   |
+     * +------------------+ +------------------+ +------------------+
+     * +------------------+ +------------------+ +------------------+
+     * |   Ruby runtime   | |   Ruby runtime   | |   Ruby runtime   |
+     * +------------------+ +------------------+ +------------------+
+     * +------------------+ +------------------+ +------------------+
+     * |ScriptingContainer| |ScriptingContainer| |ScriptingContainer|
+     * +------------------+ +------------------+ +------------------+
+     * +------------------------------------------------------------+
+     * |                         JVM                                |
+     * +------------------------------------------------------------+
+     * @return A new RubyInterpreter with simple single thread scope.
+     */
+    static RubyInterpreter singleThread() {
+        return new RubyInterpreter(LocalContextScope.SINGLETHREAD);
+    }
+
+    /**
+     * +------------------+ +------------------+ +------------------+
+     * |   Variable Map   | |   Variable Map   | |   Variable Map   |
+     * +------------------+ +------------------+ +------------------+
+     * +------------------------------------------------------------+
+     * |                        Ruby runtime                        |
+     * +------------------------------------------------------------+
+     * +------------------------------------------------------------+
+     * |                     ScriptingContainer                     |
+     * +------------------------------------------------------------+
+     * +------------------+ +------------------+ +------------------+
+     * |   Java Thread    | |   Java Thread    | |   Java Thread    |
+     * +------------------+ +------------------+ +------------------+
+     * +------------------------------------------------------------+
+     * |                         JVM                                |
+     * +------------------------------------------------------------+
+     * @return A new RubyInterpreter with concurrent scope.
+     */
+    static RubyInterpreter concurrent() {
+        return new RubyInterpreter(LocalContextScope.CONCURRENT);
+    }
+
+    /**
+     * +------------------------------------------------------------+
+     * |                       Variable Map                         |
+     * +------------------------------------------------------------+
+     * +------------------------------------------------------------+
+     * |                       Ruby runtime                         |
+     * +------------------------------------------------------------+
+     * +------------------+ +------------------+ +------------------+
+     * |ScriptingContainer| |ScriptingContainer| |ScriptingContainer|
+     * +------------------+ +------------------+ +------------------+
+     * +------------------------------------------------------------+
+     * |                         JVM                                |
+     * +------------------------------------------------------------+
+     * @return A new RubyInterpreter with singleton scope.
+     */
+    static RubyInterpreter singleton() {
+        return new RubyInterpreter(LocalContextScope.SINGLETON);
+    }
+
+    /**
+     * +------------------+ +------------------+ +------------------+
+     * |   Variable Map   | |   Variable Map   | |   Variable Map   |
+     * +------------------+ +------------------+ +------------------+
+     * +------------------+ +------------------+ +------------------+
+     * |   Ruby runtime   | |   Ruby runtime   | |   Ruby runtime   |
+     * +------------------+ +------------------+ +------------------+
+     * +------------------------------------------------------------+
+     * |                     ScriptingContainer                     |
+     * +------------------------------------------------------------+
+     * +------------------+ +------------------+ +------------------+
+     * |   Java Thread    | |   Java Thread    | |   Java Thread    |
+     * +------------------+ +------------------+ +------------------+
+     * +------------------------------------------------------------+
+     * |                         JVM                                |
+     * +------------------------------------------------------------+
+     * @return A new RubyInterpreter with thread safety scope.
+     */
+    static RubyInterpreter threadSafe() {
+        return new RubyInterpreter(LocalContextScope.THREADSAFE);
     }
 
     /**
@@ -124,5 +212,16 @@ final class RubyInterpreter implements ScriptInterpreter {
     @Override
     public String getFileExtension() {
         return "rb";
+    }
+
+    @Override
+    public boolean isClosed() {
+        return this.closed;
+    }
+
+    @Override
+    public void close() throws Exception {
+        this.closed = true;
+        this.container.terminate();
     }
 }

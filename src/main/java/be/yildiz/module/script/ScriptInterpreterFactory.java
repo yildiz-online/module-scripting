@@ -63,19 +63,28 @@ public final class ScriptInterpreterFactory {
      * ScriptLanguage.
      */
     public ScriptInterpreter getInterpreter(final ScriptLanguage language) {
-        if (!this.interpreters.containsKey(language)) {
-            switch (language) {
-                case RUBY:
-                    this.interpreters.put(language, new RubyInterpreter());
-                    break;
-                case NONE:
-                    this.interpreters.put(language, new NoInterpreter());
-                    break;
-                default:
-                    throw new UnhandledSwitchCaseException(language);
+        ScriptInterpreter interpreter;
+        boolean contained = this.interpreters.containsKey(language);
+        if(contained) {
+            interpreter = this.interpreters.get(language);
+            if(interpreter.isClosed()) {
+                interpreter = buildInterpreter(language);
             }
+        } else  {
+            interpreter = buildInterpreter(language);
         }
-        return this.interpreters.get(language);
+        return interpreter;
+    }
+
+    private ScriptInterpreter buildInterpreter(ScriptLanguage language) {
+        switch (language) {
+            case RUBY:
+                return this.interpreters.put(language, RubyInterpreter.concurrent());
+            case NONE:
+                return this.interpreters.put(language, new NoInterpreter());
+            default:
+                throw new UnhandledSwitchCaseException(language);
+        }
     }
 
     /**
