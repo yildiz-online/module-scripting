@@ -42,32 +42,31 @@ public class RubyInterpreterTest {
     @Test
     public void testSetOutput() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-            folder.create();
-            File f = new File(folder.getRoot().getAbsolutePath() + "/test.txt");
-            String toPrint = "testing output in file";
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
-                interpreter.setOutput(bw);
-                interpreter.print(toPrint);
-
-            }
-            Assert.assertTrue(f.exists());
-            try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-                Assert.assertEquals(toPrint, br.readLine());
-            }
+        folder.create();
+        File f = new File(folder.getRoot().getAbsolutePath() + "/test.txt");
+        String toPrint = "testing output in file";
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
+            interpreter.setOutput(bw);
+            interpreter.print(toPrint);
+        }
+        Assert.assertTrue(f.exists());
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+            Assert.assertEquals(toPrint, br.readLine());
+        }
     }
 
     @Test(expected = ScriptException.class)
     public void testRunScriptNotExists() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-            interpreter.runScript("none.rb");
+        interpreter.runScript("none.rb");
 
     }
 
     @Test
     public void testRunScript() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-            ParsedScript ps = interpreter.runScript(getFile().getAbsolutePath());
-            ps.run();
+        ParsedScript ps = interpreter.runScript(getFile().getAbsolutePath());
+        ps.run();
 
     }
 
@@ -78,10 +77,10 @@ public class RubyInterpreterTest {
     @Test
     public void testRunCommand() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-            Assert.assertEquals(4L, interpreter.runCommand("2+2"));
-            Assert.assertEquals(null, interpreter.runCommand("puts 'testing puts return code'"));
-            Assert.assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildiz.common.shape.Box.new(5)"));
-            Assert.assertEquals(new Box(5), interpreter.runCommand("a"));
+        Assert.assertEquals(4L, interpreter.runCommand("2+2"));
+        Assert.assertEquals(null, interpreter.runCommand("puts 'testing puts return code'"));
+        Assert.assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildiz.common.shape.Box.new(5)"));
+        Assert.assertEquals(new Box(5), interpreter.runCommand("a"));
     }
 
     @Test
@@ -92,7 +91,7 @@ public class RubyInterpreterTest {
     @Test
     public void testGetFileHeader() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-            Assert.assertEquals("#!//usr//bin//ruby\n", interpreter.getFileHeader());
+        Assert.assertEquals("#!//usr//bin//ruby\n", interpreter.getFileHeader());
 
     }
 
@@ -100,5 +99,20 @@ public class RubyInterpreterTest {
     public void testGetFileExtension() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
         Assert.assertEquals("rb", interpreter.getFileExtension());
+    }
+
+    @Test
+    public void testConstructorThreadSafe() {
+        Assert.assertNotNull(RubyInterpreter.threadSafe());
+    }
+
+    @Test
+    public void testConstructorSingleton() {
+        Assert.assertNotNull(RubyInterpreter.singleton());
+    }
+
+    @Test
+    public void testConstructorConcurrent() {
+        Assert.assertNotNull(RubyInterpreter.concurrent());
     }
 }
