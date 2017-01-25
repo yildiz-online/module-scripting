@@ -115,4 +115,13 @@ public class RubyInterpreterTest {
     public void testConstructorConcurrent() {
         Assert.assertNotNull(RubyInterpreter.concurrent());
     }
+
+    @Test
+    public void testClose() throws Exception {
+        ScriptInterpreter i = RubyInterpreter.singleThread();
+        Assert.assertFalse(i.isClosed());
+        i.close();
+        Assert.assertTrue(i.isClosed());
+    }
+
 }
