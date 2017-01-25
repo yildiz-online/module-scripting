@@ -71,4 +71,12 @@ public class NoInterpreterTest {
     public void testSetOutput() throws IOException {
         new NoInterpreter().setOutput(new PrintWriter(new StringWriter()));
     }
+
+    @Test
+    public void testClose() throws Exception {
+        ScriptInterpreter i = new NoInterpreter();
+        Assert.assertFalse(i.isClosed());
+        i.close();
+        Assert.assertTrue(i.isClosed());
+    }
 }
