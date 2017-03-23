@@ -25,8 +25,6 @@ package be.yildiz.module.script;
 
 import be.yildiz.common.collections.Maps;
 import be.yildiz.common.exeption.UnhandledSwitchCaseException;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
@@ -35,7 +33,6 @@ import java.util.Map;
  *
  * @author Grégory Van den Borre
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ScriptInterpreterFactory {
 
     /**
@@ -53,6 +50,10 @@ public final class ScriptInterpreterFactory {
      */
     public static ScriptInterpreterFactory getInstance() {
         return ScriptInterpreterFactory.INSTANCE;
+    }
+
+    private ScriptInterpreterFactory() {
+        super();
     }
 
     /**

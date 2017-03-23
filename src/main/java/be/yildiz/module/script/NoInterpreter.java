@@ -23,9 +23,6 @@
 
 package be.yildiz.module.script;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
 import java.io.Writer;
 
 /**
@@ -33,10 +30,13 @@ import java.io.Writer;
  *
  * @author Grégory Van den Borre
  */
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
 final class NoInterpreter implements ScriptInterpreter {
 
     private boolean closed;
+
+    NoInterpreter() {
+        super();
+    }
 
     @Override
     public ParsedScript runScript(final String file) throws ScriptException {
