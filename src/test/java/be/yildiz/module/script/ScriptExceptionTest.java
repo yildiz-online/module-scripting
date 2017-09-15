@@ -23,24 +23,25 @@
 
 package be.yildiz.module.script;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Grégory Van den Borre
  */
-public class ScriptExceptionTest {
+class ScriptExceptionTest {
 
     @Test
-    public void happyFlowException() {
+    void happyFlowException() {
         Exception cause = new IllegalArgumentException("test");
         ScriptException e = new ScriptException(cause);
-        Assert.assertEquals(cause, e.getCause());
+        assertEquals(cause, e.getCause());
     }
 
     @Test
-    public void happyFlowString() {
+    void happyFlowString() {
         ScriptException e = new ScriptException("test");
-        Assert.assertEquals("test", e.getMessage());
+        assertEquals("test", e.getMessage());
     }
 }

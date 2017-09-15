@@ -23,30 +23,32 @@
 
 package be.yildiz.module.script;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Grégory Van den Borre
  */
-public class ScriptInterpreterFactoryTest {
+class ScriptInterpreterFactoryTest {
 
     @Test
-    public void getInterpreterRuby() {
+    void getInterpreterRuby() {
         ScriptInterpreter i = ScriptInterpreterFactory.getInstance().getInterpreter(
                 ScriptInterpreterFactory.ScriptLanguage.RUBY);
-        Assert.assertTrue(i instanceof RubyInterpreter);
+        assertTrue(i instanceof RubyInterpreter);
     }
 
     @Test
-    public void getInterpreterNone() {
+    void getInterpreterNone() {
         ScriptInterpreter i = ScriptInterpreterFactory.getInstance().getInterpreter(
                 ScriptInterpreterFactory.ScriptLanguage.NONE);
-        Assert.assertTrue(i instanceof NoInterpreter);
+        assertTrue(i instanceof NoInterpreter);
     }
 
-    @Test(expected = NullPointerException.class)
-    public void getInterpreterNull() {
-        ScriptInterpreterFactory.getInstance().getInterpreter(null);
+    @Test
+    void getInterpreterNull() {
+        assertThrows(NullPointerException.class, () -> ScriptInterpreterFactory.getInstance().getInterpreter(null));
     }
 }

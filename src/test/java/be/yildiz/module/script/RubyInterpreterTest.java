@@ -24,46 +24,44 @@
 package be.yildiz.module.script;
 
 import be.yildiz.common.shape.Box;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Grégory Van den Borre
  */
-public class RubyInterpreterTest {
-
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+class RubyInterpreterTest {
 
     @Test
-    public void testSetOutput() throws Exception {
+    void testSetOutput() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-        folder.create();
-        File f = new File(folder.getRoot().getAbsolutePath() + "/test.txt");
+        Path folder= Files.createTempDirectory("test");
+        File f = new File(folder.getRoot().toFile().getAbsolutePath() + "/test.txt");
         String toPrint = "testing output in file";
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
             interpreter.setOutput(bw);
             interpreter.print(toPrint);
         }
-        Assert.assertTrue(f.exists());
+        assertTrue(f.exists());
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
-            Assert.assertEquals(toPrint, br.readLine());
+            assertEquals(toPrint, br.readLine());
         }
     }
 
-    @Test(expected = ScriptException.class)
-    public void testRunScriptNotExists() throws Exception {
+    @Test
+    void testRunScriptNotExists() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-        interpreter.runScript("none.rb");
+        assertThrows(ScriptException.class, () -> interpreter.runScript("none.rb"));
 
     }
 
     @Test
-    public void testRunScript() throws Exception {
+    void testRunScript() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
         ParsedScript ps = interpreter.runScript(getFile().getAbsolutePath());
         ps.run();
@@ -75,53 +73,53 @@ public class RubyInterpreterTest {
     }
 
     @Test
-    public void testRunCommand() throws Exception {
+    void testRunCommand() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-        Assert.assertEquals(4L, interpreter.runCommand("2+2"));
-        Assert.assertEquals(null, interpreter.runCommand("puts 'testing puts return code'"));
-        Assert.assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildiz.common.shape.Box.new(5)"));
-        Assert.assertEquals(new Box(5), interpreter.runCommand("a"));
+        assertEquals(4L, interpreter.runCommand("2+2"));
+        assertEquals(null, interpreter.runCommand("puts 'testing puts return code'"));
+        assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildiz.common.shape.Box.new(5)"));
+        assertEquals(new Box(5), interpreter.runCommand("a"));
     }
 
     @Test
-    public void testPrint() {
+    void testPrint() {
         // fail("Not yet implemented");
     }
 
     @Test
-    public void testGetFileHeader() throws Exception {
+    void testGetFileHeader() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-        Assert.assertEquals("#!//usr//bin//ruby\n", interpreter.getFileHeader());
+        assertEquals("#!//usr//bin//ruby\n", interpreter.getFileHeader());
 
     }
 
     @Test
-    public void testGetFileExtension() throws Exception {
+    void testGetFileExtension() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
-        Assert.assertEquals("rb", interpreter.getFileExtension());
+        assertEquals("rb", interpreter.getFileExtension());
     }
 
     @Test
-    public void testConstructorThreadSafe() {
-        Assert.assertNotNull(RubyInterpreter.threadSafe());
+    void testConstructorThreadSafe() {
+        assertNotNull(RubyInterpreter.threadSafe());
     }
 
     @Test
-    public void testConstructorSingleton() {
-        Assert.assertNotNull(RubyInterpreter.singleton());
+    void testConstructorSingleton() {
+        assertNotNull(RubyInterpreter.singleton());
     }
 
     @Test
-    public void testConstructorConcurrent() {
-        Assert.assertNotNull(RubyInterpreter.concurrent());
+    void testConstructorConcurrent() {
+        assertNotNull(RubyInterpreter.concurrent());
     }
 
     @Test
-    public void testClose() throws Exception {
+    void testClose() throws Exception {
         ScriptInterpreter i = RubyInterpreter.singleThread();
-        Assert.assertFalse(i.isClosed());
+        assertFalse(i.isClosed());
         i.close();
-        Assert.assertTrue(i.isClosed());
+        assertTrue(i.isClosed());
     }
 
 }
