@@ -51,8 +51,10 @@ In your maven project, add the dependency
 <dependency>
     <groupId>be.yildiz-games</groupId>
     <artifactId>module-scripting</artifactId>
-    <version>1.0.3</version>
+    <version>LATEST</version>
 </dependency>
 ```
+Replace LATEST by the version to use.
+
 ## Contact
-Owner of this repository: GrÃ©gory Van den Borre
+Owner of this repository: Grégory Van den Borre
