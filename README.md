@@ -26,7 +26,7 @@ Wiki:
 https://yildiz.atlassian.net/wiki
 
 Quality report:
-https://sonarqube.com/overview?id=be.yildiz-games:module-scripting
+https://sonarcloud.io/dashboard?id=be.yildiz-games%3Amodule-scripting
 
 ## License
 
@@ -57,4 +57,4 @@ In your maven project, add the dependency
 Replace LATEST by the version to use.
 
 ## Contact
-Owner of this repository: Grégory Van den Borre
+Owner of this repository: Grï¿½gory Van den Borre
