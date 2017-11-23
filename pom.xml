@@ -71,13 +71,4 @@
     </dependency>
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.gemnasium</groupId>
-        <artifactId>gemnasium-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
-
 </project>
