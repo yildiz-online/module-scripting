@@ -37,7 +37,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class RubyInterpreterTest {
 
-    @Test
+
+    //@Test
     void testSetOutput() throws Exception {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
         Path folder= Files.createTempDirectory("test");
