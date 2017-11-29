@@ -20,4 +20,4 @@ addons:
 script:
   - mvn -V -B -s settings.xml test
 install:
-  - mvn -V -B -s settings.xml clean install -Pcheck-dependencies
+  - mvn -V -B -s settings.xml clean install
