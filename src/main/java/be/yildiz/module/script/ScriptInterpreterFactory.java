@@ -23,9 +23,7 @@
 
 package be.yildiz.module.script;
 
-import be.yildiz.common.collections.Maps;
-import be.yildiz.common.exeption.UnhandledSwitchCaseException;
-
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -43,7 +41,7 @@ public final class ScriptInterpreterFactory {
     /**
      * Keep all interpreters in a list.
      */
-    private final Map<ScriptLanguage, ScriptInterpreter> interpreters = Maps.newMap();
+    private final Map<ScriptLanguage, ScriptInterpreter> interpreters = new HashMap<>();
 
     /**
      * @return The unique instance.
@@ -87,7 +85,7 @@ public final class ScriptInterpreterFactory {
                 i = new NoInterpreter();
                 break;
             default:
-                throw new UnhandledSwitchCaseException(language);
+                throw new AssertionError(language);
 
         }
         this.interpreters.put(language, i);

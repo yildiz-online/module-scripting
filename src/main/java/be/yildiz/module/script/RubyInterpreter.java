@@ -23,10 +23,10 @@
 
 package be.yildiz.module.script;
 
+import be.yildizgames.common.logging.LogFactory;
 import org.jruby.embed.*;
 import org.jruby.exceptions.RaiseException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
@@ -37,7 +37,7 @@ import java.io.*;
  */
 final class RubyInterpreter implements ScriptInterpreter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RubyInterpreter.class);
+    private final Logger logger = LogFactory.getInstance().getLogger(RubyInterpreter.class);
 
     /**
      * JRuby container to execute scripts.
@@ -189,7 +189,7 @@ final class RubyInterpreter implements ScriptInterpreter {
         try {
             return this.runCommand(classToGet.getName() + ".java_class.declared_instance_methods");
         } catch (ScriptException e) {
-            LOGGER.error("Script error", e);
+            this.logger.error("Script error", e);
             return e.getMessage();
         }
 
@@ -200,7 +200,7 @@ final class RubyInterpreter implements ScriptInterpreter {
         try {
             this.runCommand("puts '" + toPrint + "';");
         } catch (ScriptException e) {
-            LOGGER.error("Script error", e);
+            this.logger.error("Script error", e);
         }
     }
 

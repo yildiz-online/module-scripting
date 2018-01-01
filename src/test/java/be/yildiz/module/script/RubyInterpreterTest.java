@@ -23,7 +23,7 @@
 
 package be.yildiz.module.script;
 
-import be.yildiz.common.shape.Box;
+import be.yildizgames.common.shape.Box;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -78,7 +78,7 @@ class RubyInterpreterTest {
         ScriptInterpreter interpreter = RubyInterpreter.singleThread();
         assertEquals(4L, interpreter.runCommand("2+2"));
         assertEquals(null, interpreter.runCommand("puts 'testing puts return code'"));
-        assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildiz.common.shape.Box.new(5)"));
+        assertEquals(new Box(5), interpreter.runCommand("a = Java::be.yildizgames.common.shape.Box.new(5)"));
         assertEquals(new Box(5), interpreter.runCommand("a"));
     }
 
