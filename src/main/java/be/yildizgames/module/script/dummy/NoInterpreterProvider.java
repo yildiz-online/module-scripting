@@ -23,9 +23,19 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.module.script;
+package be.yildizgames.module.script.dummy;
 
+import be.yildizgames.module.script.ScriptInterpreter;
+import be.yildizgames.module.script.ScriptInterpreterProvider;
+
+/**
+ * @author Grégory Van den Borre
+ */
 public class NoInterpreterProvider implements ScriptInterpreterProvider {
 
 
+    @Override
+    public ScriptInterpreter getInterpreter() {
+        return new NoInterpreter();
+    }
 }

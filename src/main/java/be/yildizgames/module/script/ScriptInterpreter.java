@@ -25,6 +25,8 @@
 
 package be.yildizgames.module.script;
 
+import be.yildizgames.module.script.dummy.NoInterpreterProvider;
+
 import java.io.Writer;
 import java.util.ServiceLoader;
 

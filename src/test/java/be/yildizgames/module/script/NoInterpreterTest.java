@@ -25,61 +25,61 @@
 
 package be.yildizgames.module.script;
 
+import be.yildizgames.module.script.dummy.NoInterpreterProvider;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Grégory Van den Borre
  */
 class NoInterpreterTest {
 
+    private final ScriptInterpreter interpreter = new NoInterpreterProvider().getInterpreter();
+
     @Test
     void testRunScript() throws ScriptException {
-        ParsedScript p = new NoInterpreter().runScript("");
+        ParsedScript p = interpreter.runScript("");
         p.run();
     }
 
     @Test
     void testGetFileExtension() {
-        assertEquals("txt", new NoInterpreter().getFileExtension());
+        assertEquals("txt", interpreter.getFileExtension());
     }
 
     @Test
     void testGetFileHeader() {
-        assertEquals("", new NoInterpreter().getFileHeader());
+        assertEquals("", interpreter.getFileHeader());
     }
 
     @Test
     void testGetClassMethods() {
-        assertEquals("", new NoInterpreter().getClassMethods(String.class));
-        assertEquals("", new NoInterpreter().getClassMethods(Integer.class));
+        assertEquals("", interpreter.getClassMethods(String.class));
+        assertEquals("", interpreter.getClassMethods(Integer.class));
     }
 
     @Test
     void testRunCommand() throws ScriptException {
-        assertEquals("", new NoInterpreter().runCommand("azerty"));
+        assertEquals("", interpreter.runCommand("azerty"));
     }
 
     @Test
     void testPrint() {
-        new NoInterpreter().print("azerty");
+        interpreter.print("azerty");
     }
 
     @Test
-    void testSetOutput() throws IOException {
-        new NoInterpreter().setOutput(new PrintWriter(new StringWriter()));
+    void testSetOutput() {
+        interpreter.setOutput(new PrintWriter(new StringWriter()));
     }
 
     @Test
     void testClose() throws Exception {
-        ScriptInterpreter i = new NoInterpreter();
+        ScriptInterpreter i = new NoInterpreterProvider().getInterpreter();
         assertFalse(i.isClosed());
         i.close();
         assertTrue(i.isClosed());

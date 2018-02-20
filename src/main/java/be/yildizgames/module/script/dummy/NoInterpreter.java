@@ -23,7 +23,10 @@
  * THE  SOFTWARE.
  */
 
-package be.yildizgames.module.script;
+package be.yildizgames.module.script.dummy;
+
+import be.yildizgames.module.script.ParsedScript;
+import be.yildizgames.module.script.ScriptInterpreter;
 
 import java.io.Writer;
 
