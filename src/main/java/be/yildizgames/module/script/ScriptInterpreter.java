@@ -26,13 +26,19 @@
 package be.yildizgames.module.script;
 
 import java.io.Writer;
+import java.util.ServiceLoader;
 
 /**
  * Behavior for scripting languages.
  *
  * @author Grégory Van den Borre
  */
-public interface ScriptInterpreter extends AutoCloseable{
+public abstract class ScriptInterpreter implements AutoCloseable{
+
+    public static ScriptInterpreter getEngine() {
+        ServiceLoader<ScriptInterpreterProvider> provider = ServiceLoader.load(ScriptInterpreterProvider.class);
+        return provider.findFirst().orElseGet(NoInterpreterProvider::new).getInterpreter();
+    }
 
     /**
      * Parse and run a script file.
@@ -41,7 +47,7 @@ public interface ScriptInterpreter extends AutoCloseable{
      * @return A ParsedScript object to run the script again without parsing it.
      * @throws ScriptException If an exception occurs while parsing the script.
      */
-    ParsedScript runScript(String file) throws ScriptException;
+    public abstract ParsedScript runScript(String file) throws ScriptException;
 
     /**
      * Execute a command.
@@ -50,21 +56,21 @@ public interface ScriptInterpreter extends AutoCloseable{
      * @return The object resulting from the command, Long for numeric result.
      * @throws ScriptException If an exception occurs while parsing the command.
      */
-    Object runCommand(String command) throws ScriptException;
+    public abstract Object runCommand(String command) throws ScriptException;
 
     /**
      * Utility function, print a line in console.
      *
      * @param toPrint Line to print.
      */
-    void print(String toPrint);
+    public abstract void print(String toPrint);
 
     /**
      * Redirect the output.
      *
      * @param output New script engine output.
      */
-    void setOutput(Writer output);
+    public abstract void setOutput(Writer output);
 
     /**
      * Print all methods of a java class.
@@ -72,17 +78,17 @@ public interface ScriptInterpreter extends AutoCloseable{
      * @param classToGet Class to retrieve methods.
      * @return The object resulting from the command.
      */
-    Object getClassMethods(Class<?> classToGet);
+    public abstract Object getClassMethods(Class<?> classToGet);
 
     /**
      * @return The header to set in a script file.
      */
-    String getFileHeader();
+    public abstract String getFileHeader();
 
     /**
      * @return The script file extension, without ".".
      */
-    String getFileExtension();
+    public abstract String getFileExtension();
 
-    boolean isClosed();
+    public abstract boolean isClosed();
 }

@@ -25,75 +25,7 @@
 
 package be.yildizgames.module.script;
 
-import java.io.Writer;
+public class NoInterpreterProvider implements ScriptInterpreterProvider {
 
-/**
- * Simple implementation when no script engine is used.
- *
- * @author Grégory Van den Borre
- */
-final class NoInterpreter extends ScriptInterpreter {
 
-    private boolean closed;
-
-    NoInterpreter() {
-        super();
-    }
-
-    @Override
-    public ParsedScript runScript(final String file) {
-        return () -> {
-            // Does nothing.
-        };
-    }
-
-    @Override
-    public Object runCommand(final String command) {
-        return "";
-    }
-
-    @Override
-    public void print(final String toPrint) {
-        // Does nothing.
-    }
-
-    @Override
-    public void setOutput(final Writer output) {
-        // Does nothing.
-    }
-
-    /**
-     * @param classToGet Class to retrieve methods.
-     * @return "".
-     */
-    @Override
-    public Object getClassMethods(final Class<?> classToGet) {
-        return "";
-    }
-
-    /**
-     * @return "".
-     */
-    @Override
-    public String getFileHeader() {
-        return "";
-    }
-
-    /**
-     * @return "txt".
-     */
-    @Override
-    public String getFileExtension() {
-        return "txt";
-    }
-
-    @Override
-    public boolean isClosed() {
-        return this.closed;
-    }
-
-    @Override
-    public void close() {
-        this.closed = true;
-    }
 }
