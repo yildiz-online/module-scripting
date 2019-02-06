@@ -32,17 +32,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * @author Grégory Van den Borre
  */
-class ScriptExceptionTest {
+public class ScriptExceptionTest {
 
     @Test
-    void happyFlowException() {
+    public void happyFlowException() {
         Exception cause = new IllegalArgumentException("test");
         ScriptException e = new ScriptException(cause);
         assertEquals(cause, e.getCause());
     }
 
     @Test
-    void happyFlowString() {
+    public void happyFlowString() {
         ScriptException e = new ScriptException("test");
         assertEquals("test", e.getMessage());
     }

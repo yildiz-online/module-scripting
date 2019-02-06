@@ -36,49 +36,49 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Grégory Van den Borre
  */
-class NoInterpreterTest {
+public class NoInterpreterTest {
 
     private final ScriptInterpreter interpreter = new NoInterpreterProvider().getInterpreter();
 
     @Test
-    void testRunScript() throws ScriptException {
+    public void testRunScript() throws ScriptException {
         ParsedScript p = interpreter.runScript("");
         p.run();
     }
 
     @Test
-    void testGetFileExtension() {
+    public void testGetFileExtension() {
         assertEquals("txt", interpreter.getFileExtension());
     }
 
     @Test
-    void testGetFileHeader() {
+    public void testGetFileHeader() {
         assertEquals("", interpreter.getFileHeader());
     }
 
     @Test
-    void testGetClassMethods() {
+    public void testGetClassMethods() {
         assertEquals("", interpreter.getClassMethods(String.class));
         assertEquals("", interpreter.getClassMethods(Integer.class));
     }
 
     @Test
-    void testRunCommand() throws ScriptException {
+    public void testRunCommand() throws ScriptException {
         assertEquals("", interpreter.runCommand("azerty"));
     }
 
     @Test
-    void testPrint() {
+    public void testPrint() {
         interpreter.print("azerty");
     }
 
     @Test
-    void testSetOutput() {
+    public void testSetOutput() {
         interpreter.setOutput(new PrintWriter(new StringWriter()));
     }
 
     @Test
-    void testClose() throws Exception {
+    public void testClose() throws Exception {
         ScriptInterpreter i = new NoInterpreterProvider().getInterpreter();
         assertFalse(i.isClosed());
         i.close();
