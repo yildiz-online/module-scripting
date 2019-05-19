@@ -84,4 +84,5 @@ public class NoInterpreterTest {
         i.close();
         assertTrue(i.isClosed());
     }
+
 }

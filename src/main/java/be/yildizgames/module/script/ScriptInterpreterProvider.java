@@ -31,4 +31,5 @@ package be.yildizgames.module.script;
 public interface ScriptInterpreterProvider {
 
     ScriptInterpreter getInterpreter();
+
 }

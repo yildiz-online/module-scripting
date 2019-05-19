@@ -93,4 +93,5 @@ public abstract class ScriptInterpreter implements AutoCloseable{
     public abstract String getFileExtension();
 
     public abstract boolean isClosed();
+
 }

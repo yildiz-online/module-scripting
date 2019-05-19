@@ -99,4 +99,5 @@ final class NoInterpreter extends ScriptInterpreter {
     public void close() {
         this.closed = true;
     }
+
 }

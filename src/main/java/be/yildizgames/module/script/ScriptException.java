@@ -52,5 +52,4 @@ public final class ScriptException extends Exception {
     public ScriptException(final String cause) {
         super(cause);
     }
-
 }

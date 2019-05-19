@@ -46,4 +46,5 @@ public class ScriptExceptionTest {
         ScriptException e = new ScriptException("test");
         assertEquals("test", e.getMessage());
     }
+
 }
