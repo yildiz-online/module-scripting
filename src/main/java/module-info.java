@@ -23,7 +23,7 @@
  * THE  SOFTWARE.
  */
 
-module be.yildizgames.module.scripting {
+open module be.yildizgames.module.scripting {
 
     exports be.yildizgames.module.script;
 }
